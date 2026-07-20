@@ -1,0 +1,17 @@
+# dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+
+# local environment files
+.env*
+!.env.example
+
+# tooling
+.DS_Store
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/

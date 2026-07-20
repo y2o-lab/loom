@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "Keep the Next.js runtime packages compatible.",
+      "matchPackageNames": ["next", "react", "react-dom", "eslint-config-next"],
+      "groupName": "Next.js runtime"
+    }
+  ]
+}
