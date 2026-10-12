@@ -1,0 +1,35 @@
+import { expect, test } from "@playwright/test";
+
+test("builds a page from the shared component library and restores it", async ({ page }) => {
+  await page.goto("/library");
+  await page.getByRole("link", { name: "この部品でページをつくる →" }).click();
+  await page.getByRole("button", { name: "新しいページ", exact: true }).click();
+  const inspector = page.locator(".loom-studio-panel--inspector");
+  await inspector.getByLabel("見出し", { exact: true }).fill("小さなチームの、大きな一歩。");
+  await inspector.getByRole("button", { name: "変更を保存" }).click();
+  await page.getByRole("button", { name: "＋ Gridセクション" }).click();
+  await inspector.getByLabel("セクションID", { exact: true }).fill("features");
+  await inspector.getByRole("button", { name: "変更を保存" }).click();
+  await page.getByRole("button", { name: /＋ Feature card/ }).click();
+  await inspector.getByLabel("見出し", { exact: true }).fill("アイデアを共有");
+  await inspector.getByRole("button", { name: "変更を保存" }).click();
+  await page.getByRole("button", { name: /＋ Copy/ }).click();
+  await inspector.getByLabel("本文", { exact: true }).fill("毎日の仕事をひとつの場所に。");
+  await inspector.getByRole("button", { name: "変更を保存" }).click();
+  await page.getByRole("button", { name: /＋ Button link/ }).click();
+  await inspector.getByLabel("ボタンの文字", { exact: true }).fill("はじめる");
+  await inspector.getByRole("button", { name: "変更を保存" }).click();
+  await page.getByLabel("テーマ", { exact: true }).selectOption("sand");
+  await page.reload();
+  await expect(page.locator(".loom-page")).toHaveAttribute("data-theme", "sand");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("小さなチームの、大きな一歩。");
+  await expect(page.getByRole("heading", { name: "アイデアを共有", exact: true })).toBeVisible();
+  await page.getByRole("link", { name: "Preview", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "アイデアを共有", exact: true })).toBeVisible();
+  await expect(page.getByText("毎日の仕事をひとつの場所に。", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "はじめる", exact: true })).toHaveAttribute("href", "https://example.com");
+  await expect(page.locator(".loom-edit-item-button")).toHaveCount(0);
+  await page.getByRole("link", { name: "詳しく見る", exact: true }).click();
+  await expect(page).toHaveURL(/#features$/);
+  await expect(page.locator("#features")).toBeInViewport();
+});

@@ -18,6 +18,8 @@ export default function Home() {
         </p>
         <div className="loom-home__actions">
           <Link className="loom-button loom-button--primary" href="/editor">編集画面を開く</Link>
+          <Link className="loom-button loom-button--secondary" href="/form-components">フォームを組み立てる</Link>
+          <Link className="loom-button loom-button--secondary" href="/library">UIライブラリを見る</Link>
           <Link className="loom-button loom-button--secondary" href="/preview">公開プレビューを見る</Link>
         </div>
       </section>

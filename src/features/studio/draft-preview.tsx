@@ -17,7 +17,7 @@ export function DraftPreview() {
     <div className="loom-preview-shell">
       <nav className="loom-preview-nav">
         <span>LOOM / PREVIEW</span>
-        <Link href="/editor">編集に戻る</Link>
+        <div className="loom-library-buttons"><Link href="/compose">ページ編集に戻る</Link><Link href="/editor">Frame編集に戻る</Link></div>
       </nav>
       <DocumentRenderer document={document} />
     </div>

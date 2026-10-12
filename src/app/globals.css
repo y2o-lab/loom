@@ -186,3 +186,129 @@ a { color: inherit; }
   .loom-studio-panel--inspector { border-left: 0; }
   .loom-studio-canvas { padding: .5rem; }
 }
+
+/* Page composition and the shared component gallery. */
+.loom-studio-shell { height: 100dvh; overflow: hidden; }
+.loom-studio-workspace { height: calc(100dvh - 3.8rem); min-height: 0; grid-template-columns: 16rem minmax(0,1fr) 19rem; }
+.loom-studio-panel, .loom-studio-canvas { overflow-y: auto; }
+.loom-studio-header button { background: transparent; border: 1px solid #686276; border-radius: .45rem; color: white; cursor: pointer; padding: .45rem .65rem; }
+.loom-studio-registry-item { text-align: left; width: 100%; background: white; cursor: pointer; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.loom-builder-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+.loom-builder-actions button { border: 1px solid var(--line); border-radius: .45rem; padding: .6rem; background: white; cursor: pointer; font-size: .75rem; }
+.loom-page-tree { display: grid; gap: .4rem; }
+.loom-page-tree button { display: grid; gap: .35rem; text-align: left; padding: .75rem; border: 1px solid var(--line); background: white; border-radius: .5rem; cursor: pointer; }
+.loom-page-tree button[data-selected] { border-color: var(--accent); background: var(--accent-soft); }
+.loom-page-tree small { color: var(--muted); font-size: .65rem; }
+.loom-page-tree span { font-size: .8rem; }
+.loom-field { display: grid; gap: .45rem; margin: 1rem 0; color: #596170; font-size: .75rem; font-weight: 700; }
+.loom-field input, .loom-field textarea, .loom-field select { width: 100%; border: 1px solid #cbd0df; border-radius: .45rem; padding: .65rem; font: inherit; font-weight: 400; color: var(--ink); background: white; }
+.loom-field input:focus, .loom-field textarea:focus, .loom-field select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+.loom-save-props { background: var(--accent); border: 0; border-radius: .5rem; padding: .75rem; color: white; font-weight: 700; width: 100%; cursor: pointer; }
+.loom-library-hint { font-size: .75rem !important; letter-spacing: 0 !important; line-height: 1.6; color: var(--muted) !important; }
+.loom-editable-block { position: relative; }
+.loom-editable-block[data-selected] { outline: 2px solid var(--accent); outline-offset: -2px; }
+.loom-block-edit { position: absolute; top: .75rem; right: .75rem; z-index: 4; border: 1px solid #dcd8ff; background: #fff; color: var(--accent); border-radius: .4rem; padding: .4rem .6rem; cursor: pointer; }
+.loom-editable-item { position: relative; min-height: 100%; }
+.loom-editable-item[data-selected] { outline: 2px solid var(--accent); outline-offset: 4px; }
+.loom-edit-item-button { position: absolute; top: .5rem; right: .5rem; z-index: 3; border: 1px solid #dcd8ff; background: white; color: var(--accent); padding: .3rem .5rem; border-radius: .35rem; cursor: pointer; }
+.loom-empty-grid { padding: 3rem 1rem; border: 1px dashed #cbd0df; border-radius: .75rem; text-align: center; color: var(--muted); grid-column: 1 / -1; }
+.loom-library-page { background: #f7f8fc; min-height: 100dvh; }
+.loom-library-intro { max-width: 1200px; margin: auto; padding: 4rem 2rem 2rem; }
+.loom-library-intro h1 { font-size: 3rem; letter-spacing: -.05em; }
+.loom-library-intro > p:last-child { color: var(--muted); line-height: 1.8; }
+.loom-library-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; max-width: 1200px; margin: auto; padding: 0 2rem 4rem; }
+.loom-library-gallery > section { border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; background: white; }
+.loom-library-gallery > section > header { margin-bottom: 1.5rem; }
+.loom-library-gallery h2 { font-size: 1rem; margin: 0 0 .5rem; }
+.loom-library-gallery code { color: var(--muted); font-size: .7rem; }
+.loom-library-gallery .loom-feature-card { min-height: 220px; }
+.loom-library-wide { grid-column: 1 / -1; }
+.loom-library-gallery .loom-hero { padding: 3rem; border-radius: .8rem; }
+.loom-library-gallery .loom-hero h1 { font-size: 4rem; max-width: 100%; }
+.loom-library-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+@media (max-width: 720px) { .loom-studio-shell { height: auto; overflow: visible; } .loom-studio-workspace { height: auto; grid-template-columns: 1fr; } .loom-library-gallery { grid-template-columns: 1fr; } .loom-studio-header span { display: none; } }
+
+/* Shared layouts and form components. */
+[data-gap="compact"] { --layout-gap: 12px; }
+[data-gap="normal"] { --layout-gap: 20px; }
+[data-gap="relaxed"] { --layout-gap: 32px; }
+.loom-layout-grid { display: grid; gap: var(--layout-gap,20px); align-items: start; }
+.loom-layout-grid[data-columns="1"] { grid-template-columns: minmax(0,1fr); }
+.loom-layout-grid[data-columns="2"] { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.loom-layout-grid[data-columns="3"] { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.loom-layout-stack { display: flex; flex-direction: column; gap: var(--layout-gap,20px); }
+.loom-layout-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--layout-gap,20px); }
+.loom-layout-row > * { flex: 1 1 180px; min-width: 0; }
+.loom-layout-panel { border: 1px solid #e1e5ee; border-radius: 16px; background: white; padding: 24px; box-shadow: 0 4px 18px #222b4610; }
+.loom-layout-panel > h2 { font-size: 17px; margin: 0 0 22px; letter-spacing: -.03em; }
+.loom-form-header { padding: 12px 0 16px; }
+.loom-form-brand { display: flex; align-items: center; gap: 10px; color: #5a49f4; font-size: 11px; letter-spacing: .12em; font-weight: 800; }
+.loom-form-brand > span { display: grid; place-items: center; width: 30px; height: 30px; background: #5a49f4; color: white; border-radius: 9px; font-size: 18px; }
+.loom-form-header h1 { font-size: 32px; letter-spacing: -.05em; margin: 20px 0 12px; line-height: 1.35; }
+.loom-form-header p { color: #697386; font-size: 14px; line-height: 1.8; margin: 0; }
+.loom-form-field { display: flex; flex-direction: column; gap: 9px; font-size: 13px; font-weight: 700; min-width: 0; }
+.loom-form-field > span { display: flex; gap: 8px; align-items: center; }
+.loom-required, .loom-optional { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; flex-shrink: 0; }
+.loom-required { background: #eeebff; color: #6452df; }
+.loom-optional { color: #8a92a2; background: #f0f2f6; }
+.loom-form-field input, .loom-form-field select, .loom-form-field textarea { font: inherit; font-weight: 400; border: 1px solid #d8deea; border-radius: 8px; padding: 12px 13px; width: 100%; min-height: 44px; background: #fff; color: #222937; }
+.loom-form-field input::placeholder, .loom-form-field textarea::placeholder { color: #98a0b0; }
+.loom-form-field :disabled { background: #fbfcff; opacity: 1; color: #8c95a6; }
+.loom-form-field input:focus, .loom-form-field select:focus, .loom-form-field textarea:focus { outline: 3px solid #eeeaff; border-color: #8b7bff; }
+.loom-form-checkbox { display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 1.6; }
+.loom-form-checkbox input { accent-color: #5a49f4; width: 17px; height: 17px; }
+.loom-form-submit { background: #5a49f4; color: white; border: 0; border-radius: 9px; padding: 14px 22px; cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; }
+.loom-form-submit:disabled { opacity: .7; }
+.loom-form-notice { display: flex; align-items: flex-start; gap: 12px; border: 1px solid #dad6ff; background: #f3f1ff; border-radius: 10px; padding: 14px 16px; color: #67599a; }
+.loom-form-notice > span { background: #ded8ff; border-radius: 50%; width: 20px; height: 20px; display: grid; place-items: center; flex-shrink: 0; font-size: 12px; font-weight: 800; }
+.loom-form-notice p { font-size: 12px; line-height: 1.7; margin: 0; }
+.loom-form-heading { font-size: 15px; margin: 0; }
+.loom-form-divider { border: 0; border-top: 1px solid #e1e5ee; width: 100%; margin: 0; }
+.loom-form-builder { height: 100dvh; overflow: hidden; }
+.loom-form-workspace { display: grid; grid-template-columns: 290px minmax(0,1fr) 300px; height: calc(100dvh - 3.8rem); }
+.loom-form-tree { max-height: 255px; overflow: auto; margin-bottom: 12px; }
+.loom-form-tree-branch > button { display: flex; align-items: center; gap: 6px; width: 100%; border: 1px solid transparent; background: transparent; border-radius: 5px; padding: 6px 7px; text-align: left; cursor: pointer; font-size: 11px; color: #404c60; }
+.loom-form-tree-branch > button > span:last-child { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.loom-form-tree-branch > button[data-selected] { border-color: #c4baff; background: #ede9ff; color: #5943d7; }
+.loom-form-tree-type { font-size: 9px; font-weight: 700; color: #8c80b9; min-width: 34px; }
+.loom-form-tree-children { border-left: 1px solid #e1dcec; margin-left: 10px; padding-left: 6px; }
+.loom-form-palette-group h3 { font-size: 11px; margin: 14px 0 8px; color: #8790a2; }
+.loom-form-palette { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
+.loom-form-palette button { display: grid; gap: 3px; text-align: left; background: white; border: 1px solid #dce1eb; border-radius: 7px; padding: 9px; cursor: pointer; }
+.loom-form-palette button:hover { border-color: #8a78ee; background: #f9f7ff; }
+.loom-form-palette strong { font-size: 11px; }
+.loom-form-palette small { font-size: 9px; color: #98a0ad; }
+.loom-form-canvas { overflow: auto; min-width: 0; padding: 26px 32px 60px; background: #eff1f7; }
+.loom-form-canvas-caption { max-width: 860px; display: flex; justify-content: space-between; margin: 0 auto 18px; color: #8d94a4; font-size: 10px; letter-spacing: .08em; }
+.loom-form-canvas-sheet { max-width: 860px; margin: 0 auto; background: #fff; border: 1px solid #e5e7ef; border-radius: 18px; padding: 36px; min-height: 300px; box-shadow: 0 14px 40px #28314d0d; }
+.loom-form-node { position: relative; min-width: 0; }
+.loom-form-node--layout { padding: 20px 8px 8px; border: 1px dashed #ddd5f2; border-radius: 8px; }
+.loom-form-node[data-selected] { outline: 2px solid #8a72fa; outline-offset: 3px; }
+.loom-form-node-select { position: absolute; top: -6px; right: 3px; background: #f0ebff; color: #836ab8; border: 1px solid #ddd2f6; font-size: 8px; padding: 2px 4px; border-radius: 3px; cursor: pointer; z-index: 2; }
+.loom-form-empty { border: 1px dashed #d3c9ee; border-radius: 7px; padding: 26px 12px; color: #a394ba; text-align: center; font-size: 11px; margin: 0; }
+.loom-inspector-check { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; }
+.loom-inspector-check input { width: 16px; height: 16px; accent-color: #5a49f4; }
+.loom-form-remove { border: 1px solid #ebd5d5; background: white; border-radius: 6px; padding: 8px 12px; color: #b46666; cursor: pointer; font-size: 11px; }
+.loom-form-preview { background: #f5f6fb; min-height: 100dvh; }
+.loom-form-preview-content { max-width: 800px; margin: 0 auto; padding: 45px 28px 70px; }
+.loom-form-error { color: #b73d52; background: #fff0f2; padding: 14px; border: 1px solid #f2c7cf; border-radius: 8px; font-size: 13px; }
+.loom-form-confirmation { margin-top: 30px; border: 1px solid #b6ddcc; border-radius: 14px; background: #fff; padding: 26px; }
+.loom-confirm-icon { display: grid; place-items: center; width: 34px; height: 34px; background: #e4f6ee; color: #21966a; border-radius: 50%; font-size: 20px; }
+.loom-form-confirmation h2 { font-size: 20px; }
+.loom-form-confirmation p { font-size: 12px; color: #758391; }
+.loom-form-confirmation table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+.loom-form-confirmation th, .loom-form-confirmation td { padding: 12px 8px; border-top: 1px solid #edf0f5; vertical-align: top; }
+.loom-form-confirmation th { width: 35%; color: #758391; font-weight: 500; }
+.loom-form-components-gallery { max-width: 1200px; padding: 0 32px 70px; margin: auto; display: grid; gap: 28px; }
+.loom-form-components-gallery > section { background: white; border: 1px solid #e3e6ef; border-radius: 16px; padding: 28px; }
+.loom-form-components-gallery > section > h2 { margin: 0 0 25px; font-size: 16px; }
+.loom-layout-examples { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; }
+.loom-layout-examples h3 { margin: 0 0 15px; font-size: 13px; color: #6956c6; }
+.loom-layout-examples span { background: #ebe6ff; border: 1px solid #d7cdf8; border-radius: 6px; padding: 10px; text-align: center; color: #8f7cc5; font-size: 11px; }
+.loom-layout-examples .loom-layout-panel { padding: 10px; }
+.loom-layout-examples .loom-layout-panel > h2 { font-size: 11px; margin-bottom: 10px; }
+.loom-layout-examples p { color: #8d94a2; font-size: 11px; line-height: 1.7; }
+.loom-form-gallery-sample { max-width: 740px; margin: auto; }
+@media (max-width: 640px) { .loom-layout-grid[data-columns] { grid-template-columns: minmax(0,1fr); } .loom-layout-examples { grid-template-columns: repeat(2,minmax(0,1fr)); } .loom-form-preview-content { padding: 24px 16px; } .loom-layout-panel { padding: 18px; } }
+@media (max-width: 900px) { .loom-form-builder { height: auto; overflow: visible; } .loom-form-workspace { display: flex; height: auto; flex-direction: column; } .loom-form-canvas { padding: 20px; } .loom-form-canvas-sheet { padding: 22px; } .loom-form-tree { max-height: 180px; } }

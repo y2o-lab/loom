@@ -1,7 +1,8 @@
 "use client";
 
-import { ButtonLink } from "@/components/ui/button-link";
-import { FeatureCard } from "@/components/ui/feature-card";
+import { Hero } from "@/components/ui/hero";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { renderGridItem } from "./component-registry";
 import { FreeformFrame } from "./freeform-frame";
 import type { FreeformItem, StudioDocument } from "./document";
 
@@ -15,52 +16,29 @@ type DocumentRendererProps = {
 };
 
 export function DocumentRenderer({ document, editing = false, onAddToFrame, onChangeFrameItem, onSelect, selectedId }: DocumentRendererProps) {
-  return (
-    <main className="loom-page" data-theme={document.root.theme}>
-      {document.content.map((node) => {
-        if (node.type === "Hero") {
-          return (
-            <section className="loom-hero" key={node.id}>
-              <div className="loom-hero__inner">
-                <p className="loom-hero__eyebrow">{node.props.eyebrow}</p>
-                <h1>{node.props.title}</h1>
-                <p>{node.props.description}</p>
-                <ButtonLink href={node.props.ctaHref} tone="primary">{node.props.ctaLabel}</ButtonLink>
-              </div>
-            </section>
-          );
-        }
-
-        return (
-          <section className="loom-section" id={node.id} key={node.id}>
-            <div className="loom-section__inner">
-              <header className="loom-section__heading">
-                <p className="loom-section__eyebrow">{node.props.eyebrow}</p>
-                <h2>{node.props.title}</h2>
-                <p>{node.props.description}</p>
-              </header>
-              {node.layout.type === "Grid" ? (
-                <div className={`loom-grid loom-grid--${node.layout.props.columns}`}>
-                  {node.layout.items.map((item) => {
-                    if (item.type === "FeatureCard") return <FeatureCard key={item.id} {...item.props} />;
-                    if (item.type === "Copy") return <p className={`loom-copy ${item.props.emphasis === "muted" ? "loom-copy--muted" : ""}`} key={item.id}>{item.props.text}</p>;
-                    return <ButtonLink href={item.props.href} key={item.id} tone={item.props.tone}>{item.props.label}</ButtonLink>;
-                  })}
+  return <main className="loom-page" data-theme={document.root.theme}>
+    {document.content.map(node => {
+      const content = node.type === "Hero" ? <Hero {...node.props} /> : (
+        <section className="loom-section" id={node.id}><div className="loom-section__inner">
+          <SectionHeading {...node.props} />
+          {node.layout.type === "Grid" ? (
+            <div className={`loom-grid loom-grid--${node.layout.props.columns}`}>
+              {node.layout.items.map(item => editing ? (
+                <div className="loom-editable-item" data-selected={selectedId === item.id || undefined} key={item.id}>
+                  <button className="loom-edit-item-button" onClick={() => onSelect?.(item.id)} type="button" aria-label={`${item.type}を編集`}>編集</button>
+                  {renderGridItem(item)}
                 </div>
-              ) : (
-                <FreeformFrame
-                  editing={editing}
-                  frame={node.layout}
-                  onAdd={() => onAddToFrame?.(node.layout.id)}
-                  onChangeItem={(itemId, placement) => onChangeFrameItem?.(node.layout.id, itemId, placement)}
-                  onSelect={onSelect}
-                  selectedId={selectedId}
-                />
-              )}
+              ) : <div key={item.id}>{renderGridItem(item)}</div>)}
+              {editing && node.layout.items.length === 0 ? <div className="loom-empty-grid">左のライブラリから部品を追加してください。</div> : null}
             </div>
-          </section>
-        );
-      })}
-    </main>
-  );
+          ) : <FreeformFrame editing={editing} frame={node.layout} onAdd={() => onAddToFrame?.(node.layout.id)}
+            onChangeItem={(itemId, placement) => onChangeFrameItem?.(node.layout.id, itemId, placement)} onSelect={onSelect} selectedId={selectedId} />}
+        </div></section>
+      );
+      return editing ? <div className="loom-editable-block" key={node.id} data-selected={selectedId === node.id || undefined}>
+        <button className="loom-block-edit" onClick={() => onSelect?.(node.id)} type="button">{node.type === "Hero" ? "Heroを編集" : "セクションを編集"}</button>
+        {content}
+      </div> : <div key={node.id}>{content}</div>;
+    })}
+  </main>;
 }

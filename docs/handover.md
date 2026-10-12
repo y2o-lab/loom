@@ -185,3 +185,25 @@ pnpm exec playwright install chromium
 - document schema: `src/features/studio/document.ts`
 - 編集操作: `src/features/studio/freeform-frame.tsx`
 - テスト設定: `vitest.config.ts`、`playwright.config.ts`
+
+## 2026-10-12: UIライブラリからのページ作成フロー
+
+- `/library`に同じアプリ内のReactコンポーネント一覧を追加した。Hero、SectionHeading、FeatureCard、Copy、ButtonLinkを表示する。
+- `/compose`で新しいHeroページの作成、Gridセクション追加、登録部品の追加、Inspectorによる文言・リンク編集、2/3列設定、テーマ選択ができる。
+- セクションIDを編集してページ内リンクを設定できる。空白・ページ内の重複IDは拒否する。
+- Gridもcomponent registry経由で描画し、Hero・SectionHeadingも共有UIを使う。編集画面とプレビューの描画を共通化した。
+- 既存の`/editor`はFrame編集用として残している。`/compose`も既存Frameの配置変更を保存できる。
+- 保存先は従来と同じ単一のlocalStorage下書き。「新しいページ」は現在の下書きを置き換える。複数ページ保存、Undo、公開機能は未実装。
+- E2Eを1件追加し、ライブラリから作成、部品編集、保存復元、テーマ、プレビュー、ページ内リンクを検証する。既存のドラッグE2Eも維持する。
+- `scripts/record-composition.cjs`で独立したブラウザセッションの実操作を録画できる。ローカル開発サーバー、Chromium、ffmpegが必要。生成先は`artifacts/loom-page-composition.mp4`。
+
+## 2026-10-12: レイアウトを組み合わせるフォームビルダー
+
+- 共有UIにGrid / Stack / Row / PanelとHeader、Input、Select、Textarea、Checkbox、Button、Noticeを追加。フォーム編集とプレビューで同じ部品を描画する。
+- `/form-components`で部品の見た目を確認し、`/form-builder`で入れ子のレイアウトを構成できる。構成ツリー、追加先表示、Inspector、兄弟部品の順序変更・削除に対応する。
+- フォームのdocumentはページモデルと別のversion 1として保存する。既存のページ下書きは変更しない。保存キーは`loom-studio:form:v1`。
+- recursive Valibot schemaを使い、検証前に深さ・総部品数を制限する。IDと項目キーの重複、任意の未登録コンポーネントを拒否する。
+- `/form-preview`で実入力、必須チェック、メール形式検証、画面内の確認結果表示ができる。外部送信・フォーム回答のDB保存は未実装。
+- Gridは640px以下で1列に切り替わる。Rowは折り返す。
+- Unitは全7件、E2Eは全3件。フォームの入れ子、保存復元、無効入力、確認結果、スマートフォン幅を検証する。
+- `scripts/record-form-composition.cjs`は19部品の参加申込フォームを実際のUI操作で組み立て、再読み込み・入力確認まで録画する。出力先は`artifacts/loom-form-composition.mp4`。`LOOM_RECORD_FAST=1`で高速な通し検証も可能。

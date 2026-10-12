@@ -197,3 +197,31 @@ export function createFrameCard(index: number): FreeformItem {
     },
   };
 }
+
+export type PageNode = StudioDocument["content"][number];
+export type SectionNode = Extract<PageNode, { type: "Section" }>;
+export type GridItem = Grid["items"][number];
+
+export function createHero(): Extract<PageNode, { type: "Hero" }> {
+  return { id: `hero-${crypto.randomUUID()}`, type: "Hero", props: {
+    eyebrow: "YOUR BRAND", title: "新しいページをつくろう", description: "登録済みのUIコンポーネントで、あなたのサービスを紹介しましょう。",
+    ctaLabel: "詳しく見る", ctaHref: "#features",
+  } };
+}
+
+export function createPage(): StudioDocument {
+  return { version: 1, root: { title: "新しいページ", description: "Loomで作成したページ", theme: "light" }, content: [createHero()] };
+}
+
+export function createGridSection(): SectionNode {
+  return { id: `section-${crypto.randomUUID()}`, type: "Section", props: {
+    eyebrow: "FEATURES", title: "サービスの特徴", description: "ライブラリから部品を追加して、このセクションを組み立てます。",
+  }, layout: { id: `grid-${crypto.randomUUID()}`, type: "Grid", props: { columns: 3 }, items: [] } };
+}
+
+export function createGridItem(type: GridItem["type"]): GridItem {
+  const id = `item-${crypto.randomUUID()}`;
+  if (type === "FeatureCard") return { id, type, props: { icon: "UI", title: "新しい特徴", description: "特徴の説明を入力してください。" } };
+  if (type === "Copy") return { id, type, props: { text: "伝えたいメッセージを入力してください。", emphasis: "default" } };
+  return { id, type, props: { label: "お問い合わせ", href: "https://example.com", tone: "primary" } };
+}
